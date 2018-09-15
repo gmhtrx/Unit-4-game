@@ -1,14 +1,16 @@
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Crystal Game</title>
 </head>
-<body>
-    
 
-    <p><img src = "/assets/"></p>
+<body>
+
+
+    <p><img src="/assets/"></p>
 
 
 
@@ -17,7 +19,32 @@
         var wins = 0;
         var losses = 0;
         
-        $(".crystal-image").on("click", function() {
+        var images = ["assets/images/diamond.png", "assets/images/emerald.jpg", "assets/images/gold.png", "assets/images/Silver.png" ];
+        function Crystal() {
+            var numberOptions = [];
+            this.crystalValue = Math.floor(Math.random() * 102 + 19);
+            this.numberOptions.push(crystalValue);
+        }
+        
+        for (var j = 0; j < 5; j++) {
+            var randomNumbers = Math.floor(Math.random() * 102 + 19);
+            numberOptions.push(randomNumbers);
+        }
+        for (var i = 0; i < numberOptions.length; i++) {
+
+            var imageCrystal = $("<img>");
+
+            imageCrystal.addClass("crystal-image");
+
+            imageCrystal.attr("src", "/assets");
+
+            imageCrystal.attr("data-crystalvalue", numberOptions[i]);
+
+            $("#crystals").append(imageCrystal);
+        }
+    
+
     </script>
 </body>
+
 </html>
