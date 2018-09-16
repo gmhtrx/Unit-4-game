@@ -27,9 +27,14 @@
 
 
         var game = new Crystal;
-        if (!game.gameover) {
 
-        }
+        $(".crystal-image").on("click", function() {
+            var x = ($(this).attr("data-crystalvalue"));
+            if (!game.gameover) {
+            game.addCrystals(x);
+            }
+        });
+        
         function Crystal() {
             this.numberOptions = [];
             this.gameover = false;
@@ -41,6 +46,7 @@
                 this.numberOptions[j] = this.userCrystalValues;
             }
             console.log(this.numberOptions);
+            console.log(this.crystalValue);
             for (var i = 0; i < this.numberOptions.length; i++) {
 
                 var imageCrystal = $("<img>");
@@ -55,8 +61,23 @@
             }
         }
 
-        Crystal.prototype.check = function(){
+        Crystal.prototype.addCrystals = function(x) {
+        x = parseInt(x);
+        
+        this.userScore+= x;
+        console.log(this.userScore);
+        // We then add the crystalValue to the user's "counter" which is a global variable.
+        // Every click, from every crystal adds to the global counter.
+        // All of the same game win-lose logic applies. So the rest remains unchanged.
+        alert("New score: " + this.userScore);
 
+        if (this.userScore === this.crystalValue) {
+        alert("You win!");
+        }
+
+        else if (this.userScore >= this.crystalValue) {
+        alert("You lose!!");
+        }
         };
     
 
