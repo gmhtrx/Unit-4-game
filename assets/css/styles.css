@@ -1,3 +1,12 @@
+body {
+    font-family: 'VT323', monospace;
+    color: white;
+    font-size: 40px;
+}
+div #title {
+    font-size: 60px;
+}
+
 img {
     position: relative;
     float: left;
@@ -6,4 +15,9 @@ img {
     background-position: 50% 50%;
     background-repeat:   no-repeat;
     background-size:     cover;
+}
+
+.container {
+    background-image: url("../images/background.png");
+
 }

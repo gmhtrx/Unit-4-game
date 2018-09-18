@@ -4,86 +4,132 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <link rel="stylesheet" href="assets/css/reset.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO"
+        crossorigin="anonymous">
+    <link href="https://fonts.googleapis.com/css?family=VT323" rel="stylesheet">
     <link rel="stylesheet" href="assets/css/styles.css">
+
     <title>Crystal Game</title>
 </head>
 
 <body>
+    <div class="container mx-auto">
+        <div class="row" id="title">
+            M I N E&nbsp;&nbsp;C O L L E C T O R
+        </div>
+        <div class="row mt-2">
+            <div id="scoreboard">
+
+            </div>
+        </div>
 
 
-    <div id="crystals">
+        <div class="row">
+            <div class="col-centered" id="crystal-number">
+            </div>
+        </div>
+        <div class="row mt-5 ">
+            <div class="col center-block">
+                <div id="crystals">
+                </div>
 
+            </div>
+        </div>
+        <div class="row">
+            <div id="user-score">
+            </div>
+        </div>
     </div>
 
-    <script src="assets/javascript/jquery.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+        crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49"
+        crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy"
+        crossorigin="anonymous"></script>
     <script type="text/javascript">
         var wins = 0;
         var losses = 0;
-        
-        var images = ["assets/images/diamond.png", "assets/images/emerald.png", "assets/images/gold.png", "assets/images/Silver.png" ];
-        
+        var images = ["assets/images/diamond.png", "assets/images/emerald.png", "assets/images/gold.png", "assets/images/Silver.png"];
+
         var r = "ready to play";
+        $("#scoreboard").html("Wins: " + wins + "<br>" + "Losses: " + losses);
+        var game = new Crystal();
 
-
-        var game = new Crystal;
-
-        $(".crystal-image").on("click", function() {
+        $(document).on("click", ".crystal-image", function () {
             var x = ($(this).attr("data-crystalvalue"));
             if (!game.gameover) {
-            game.addCrystals(x);
+                game.addCrystals(x);
+            }
+            else {
+                console.log("game over");
+                console.log(wins + " " + losses);
+                game = new Crystal();
             }
         });
-        
+
         function Crystal() {
-            this.numberOptions = [];
+            this.randomNumber = [];
             this.gameover = false;
             this.userScore = 0;
-            alert(r);
+            $("#user-score").html(this.userScore);
             this.crystalValue = Math.floor(Math.random() * 102 + 19);
-            for (var j = 0; j < 4; j++){
-                this.userCrystalValues = Math.floor(Math.random() * 12 + 1);
-                this.numberOptions[j] = this.userCrystalValues;
-            }
-            console.log(this.numberOptions);
-            console.log(this.crystalValue);
-            for (var i = 0; i < this.numberOptions.length; i++) {
-
+            $("#crystal-number").html(this.crystalValue);
+            for (var j = 0; j < 4; j++) {
+                this.randomNumber[j] = Math.floor(Math.random() * 12 + 1);
+                // For each iteration, we will create an imageCrystal
                 var imageCrystal = $("<img>");
 
+                // First each crystal will be given the class ".crystal-image".
+                // This will allow the CSS to take effect.
                 imageCrystal.addClass("crystal-image");
 
-                imageCrystal.attr("src", images[i]);
+                // Each imageCrystal will be given a src link to the crystal image
+                imageCrystal.attr("src", images[j]);
 
-                imageCrystal.attr("data-crystalvalue", this.numberOptions[i]);
-
-                $("#crystals").append(imageCrystal);           
+                // Each imageCrystal will be given a data attribute called data-crystalValue.
+                // This data attribute will be set equal to the array value.
+                imageCrystal.attr("data-crystalvalue", this.randomNumber[j]);
+                // Lastly, each crystal image (with all it classes and attributes) will get added to the page.
+                $("#crystals").append(imageCrystal);
             }
+
+            console.log(this.randomNumber);
+            console.log(this.crystalValue);
+
         }
 
-        Crystal.prototype.addCrystals = function(x) {
-        x = parseInt(x);
-        
-        this.userScore+= x;
-        console.log(this.userScore);
-        // We then add the crystalValue to the user's "counter" which is a global variable.
-        // Every click, from every crystal adds to the global counter.
-        // All of the same game win-lose logic applies. So the rest remains unchanged.
-        alert("New score: " + this.userScore);
 
-        if (this.userScore === this.crystalValue) {
-        alert("You win!");
-        }
+        Crystal.prototype.addCrystals = function (x) {
+            x = parseInt(x);
 
-        else if (this.userScore >= this.crystalValue) {
-        alert("You lose!!");
-        }
+            this.userScore += x;
+            $("#user-score").html(this.userScore);
+            console.log(this.userScore);
+            console.log("New score: " + this.userScore);
+
+            if (this.userScore === this.crystalValue) {
+                wins++;
+                alert("You win!");
+                this.gameover = true;
+                $("#crystals").empty();
+                $("#scoreboard").html("Wins: " + wins + "<br>" + "Losses: " + losses);
+                game = new Crystal();
+            }
+
+            else if (this.userScore >= this.crystalValue) {
+                losses++;
+                alert("You lose!!");
+                this.gameover = true;
+                $("#scoreboard").html("Wins: " + wins + "<br>" + "Losses: " + losses);
+                $("#crystals").empty();
+                game = new Crystal();
+            }
         };
-    
 
     </script>
-    
-    
+
+
 </body>
 
 </html>
